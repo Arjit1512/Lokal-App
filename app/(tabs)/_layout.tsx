@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import {Entypo, Feather} from '@expo/vector-icons';
+import {Entypo, Feather, FontAwesome} from '@expo/vector-icons';
 
 
 export default function TabsLayout(){
@@ -11,7 +11,7 @@ export default function TabsLayout(){
       }} />
       <Tabs.Screen name='Bookmarks' options={{headerShown: false , 
         tabBarIcon: ({size,color}) => 
-          <Entypo name='bookmark' size={size} color={color} />
+          <FontAwesome name='bookmark' size={size} color={color} />
       }} />
       
     </Tabs>
