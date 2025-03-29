@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, Linking, Platform } from 'react-native'
 import React, { useState } from 'react'
 import { useLocalSearchParams } from 'expo-router/build/hooks'
 import { SafeAreaView, useSafeAreaFrame } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native';
-import { Entypo, EvilIcons, Feather, FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, Entypo, EvilIcons, Feather, FontAwesome, FontAwesome5, Ionicons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { router, useFocusEffect } from 'expo-router';
 import { useFonts } from 'expo-font';
 import Loader from '../../components/Loader';
@@ -32,7 +32,7 @@ const Job = () => {
                 try {
                     const bookmarks = await AsyncStorage.getItem('bookmarks');
                     let array = JSON.parse(bookmarks);
-                    const value = array.some((element) => element.id === jobItem.id);
+                    const value = array?.some((element) => element.id === jobItem.id);
                     setIsBookmarked(value);
                 } catch (error) {
                     console.log('Error: ', error);
@@ -83,9 +83,9 @@ const Job = () => {
 
 
     return (
-        <SafeAreaView>
+         <SafeAreaView>
             <ScrollView>
-                <TouchableOpacity>
+                <TouchableOpacity style={styles.cb}>
                     <Ionicons name='chevron-back' size={32} color='black' onPress={() => router.back()} />
                 </TouchableOpacity>
                 <View style={styles.maindiv}>
@@ -119,11 +119,25 @@ const Job = () => {
 
                 <View style={styles.bluebox}>
                     <Text style={styles.h1}>Job Highlights</Text>
+                    <View style={styles.rowdiv}>
+                    <AntDesign name='staro' size={18} white='black' />
                     <Text style={styles.greyc}>Experience: <Text style={styles.span}>{jobItem.exp}</Text></Text>
+                    </View>
+                    <View style={styles.rowdiv}>
+                    <SimpleLineIcons name='graduation' size={18} color='black' />
                     <Text style={styles.greyc}>Qualification: <Text style={styles.span}>{jobItem.qua}</Text></Text>
+                    </View>
+
+                    <View style={styles.rowdiv}>
+                    <Ionicons name='people-outline' size={18} color='black' />
                     <Text style={styles.greyc}>Gender: <Text style={styles.span}>{jobItem.gender}</Text></Text>
+                    </View>
                     <Text style={[styles.h1, styles.up]}>Preferences</Text>
+                    
+                    <View style={styles.rowdiv}>
+                    <Feather name='sun' size={18} color='black' />
                     <Text style={styles.greyc}>Shift Timing: <Text style={styles.span}>{jobItem.shift}</Text></Text>
+                    </View>
                 </View>
                 <View style={styles.greyborder}></View>
 
@@ -165,11 +179,11 @@ const Job = () => {
 
 
                 <View style={styles.flexrow}>
-                    <TouchableOpacity style={[styles.flexrow, styles.chatbtn]}>
+                    <TouchableOpacity style={[styles.flexrow, styles.chatbtn]}  onPress={() => Linking.openURL(jobItem.wha)}>
                         <FontAwesome name='whatsapp' size={24} color='green' />
                         <Text style={styles.call}>Chat</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.callbtn}>
+                    <TouchableOpacity style={styles.callbtn}  onPress={() => Linking.openURL(jobItem.tel)}>
                         <Text style={styles.call}>{jobItem.btntext}</Text>
                     </TouchableOpacity>
 
@@ -196,7 +210,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         margin: 6,
-        marginTop: 35,
+        marginTop: 45,
         marginBottom: 10,
         textAlign: "center"
     },
@@ -224,11 +238,11 @@ const styles = StyleSheet.create({
     },
     tb1: {
         fontWeight: 'bold',
-        fontSize: 13,
+        fontSize: 15,
         fontFamily: "ProductSans-Bold",
         position: 'absolute',
         left: -18,
-        width: 250
+        width: 220,
     },
     shareIcon: {
         display: "flex",
@@ -246,7 +260,7 @@ const styles = StyleSheet.create({
         top: 30
     },
     small: {
-        fontSize: 12,
+        fontSize: 14,
         color: '#555',
         fontFamily: "ProductSans",
         paddingLeft: 5,
@@ -259,6 +273,11 @@ const styles = StyleSheet.create({
         paddingLeft: 1,
         paddingBottom: 2
     },
+    rowdiv:{
+        display: 'flex',
+        flexDirection: 'row', 
+        gap:5 
+    },
     flexrow: {
         display: 'flex',
         flexDirection: 'row',
@@ -268,6 +287,7 @@ const styles = StyleSheet.create({
     },
     flexcol: {
         marginLeft: 10,
+        marginBottom:20
     },
     greybox: {
         backgroundColor: '#e0e0e0',
@@ -279,8 +299,8 @@ const styles = StyleSheet.create({
         marginTop: -15
     },
     img: {
-        height: 60,
-        width: 60,
+        height: 75,
+        width: 75,
         borderRadius: 8,
     },
 
@@ -335,15 +355,18 @@ const styles = StyleSheet.create({
         color: "black",
         fontWeight: '700'
     },
+    title:{
+
+    },
     text: {
         color: "grey",
         lineHeight: 25,
-        fontWeight: '700'
+        fontWeight: '700',
     },
     t: {
         color: "grey",
         fontWeight: "400",
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "ProductSans",
         lineHeight: 16,
         marginTop: 10
@@ -371,7 +394,10 @@ const styles = StyleSheet.create({
 
 
     //buttons
-
+    cb:{
+       marginLeft: Platform.OS === 'ios' ? 0 : 12,
+       marginTop: Platform.OS === 'ios' ? 0 : 6
+    },
     chatbtn: {
         display: "flex",
         alignItems: "center",

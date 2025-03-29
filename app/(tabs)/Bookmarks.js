@@ -24,7 +24,7 @@ const Bookmarks = () => {
         setLoading(true)
         try {
           const bookmarks = await AsyncStorage.getItem('bookmarks');
-          setBookmarks(JSON.parse(bookmarks));
+          setBookmarks((JSON.parse(bookmarks)) || []);
         } catch (error) {
           console.log('Error: ', error)
           Alert.alert("Error", error);
@@ -58,7 +58,7 @@ const Bookmarks = () => {
         <StatusBar barStyle="light-content" backgroundColor="#151515" />
         <View>
           <Text style={styles.title}>Bookmarks</Text>
-          {bookmarks.map((item, index) => {
+          {bookmarks.length>0 && bookmarks.map((item, index) => {
             return (
               <TouchableOpacity key={index} style={styles.maindiv} onPress={() => handlePress(item)}>
                 <View style={styles.flexrow}>

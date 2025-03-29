@@ -84,8 +84,11 @@ const Jobs = () => {
 
   return (
     <SafeAreaView style={styles.safearea}>
-      <StatusBar barStyle="light-content" backgroundColor="#151515" />
-      <Text style={styles.title}>Lokal Jobs</Text>
+      <StatusBar barStyle="light-content" backgroundColor="" />
+      <View style={styles.rowdiv}>
+        <Image style={styles.logo} source={require("../../assets/images/lokal.jpeg")} />
+        <Text style={styles.title}>Lokal Jobs</Text>
+      </View>
       <FlatList
         data={data}
         keyExtractor={(item, index) => item.id || index.toString()}
@@ -121,7 +124,7 @@ const Jobs = () => {
                 <TouchableOpacity style={styles.callbtn} onPress={() => Linking.openURL(item.tel)}>
                   <Text style={styles.call}>{item.btntext}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.arrowbtn}>
+                <TouchableOpacity style={styles.arrowbtn} onPress={() => handlePress(item)}>
                   <Feather name='arrow-right' size={24} color='black' />
                 </TouchableOpacity>
 
@@ -155,12 +158,26 @@ const styles = StyleSheet.create({
     color: "grey",
     fontFamily: "ProductSans"
   },
+  rowdiv: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 5,
+    marginLeft: 12,
+    marginTop: 4,
+    height: 42,
+    marginBottom:-5
+  },
   title: {
     fontSize: 22,
     fontWeight: '700',
     color: "black",
-    marginLeft: 12,
+    marginLeft: 0,
+    marginBottom: 12,
     fontFamily: "ProductSans-Bold"
+  },
+  logo: {
+    height: 30,
+    width: 30
   },
   middleRow: {
     display: "flex",
